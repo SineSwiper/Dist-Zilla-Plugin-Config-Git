@@ -6,15 +6,14 @@ package Dist::Zilla::Role::GitConfig;
 #############################################################################
 # Modules
 
-use sanity;
 use Moose::Role;
-use Types::Standard qw(Str RegexpRef);
+use MooseX::Types::Moose qw(Str RegexpRef);
 
-use List::AllUtils qw(first);
+use List::Util qw(first);
+
 use String::Errf qw(errf);  # We are here to save the errf: E-R-R-F!
 
 use namespace::clean;
-no warnings 'uninitialized';
 
 #############################################################################
 # Requirements
