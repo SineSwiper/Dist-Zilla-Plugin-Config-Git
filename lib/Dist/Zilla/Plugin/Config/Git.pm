@@ -6,15 +6,10 @@ package Dist::Zilla::Plugin::Config::Git;
 #############################################################################
 # Modules
 
-use sanity;
 use Moose;
-use Type::Utils -all;
-use Types::Standard qw(Str ArrayRef RegexpRef);
+use MooseX::Types::Moose qw(Str ArrayRef RegexpRef);
 
 with 'Dist::Zilla::Role::Plugin';
-
-use namespace::clean;
-no warnings 'uninitialized';
 
 #############################################################################
 # Regular Expressions (for subtypes)
@@ -76,28 +71,34 @@ my $valid_git_repo = qr%
 #############################################################################
 # Subtypes
 
-my $GitRepo = declare 'GitRepo',
+use MooseX::Types -declare => [qw(
+   GitRepo
+   GitBranch
+);
+
+subtype GitRepo,
    as Str,
    where { /^$valid_git_repo$/ }
 ;
 
-my $GitBranch = declare 'GitBranch',
+subtype GitBranch,
    as Str,
    where { /^$valid_ref_name$/ }
 ;
+use namespace::clean;
 
 #############################################################################
 # Attributes
 
 has remote => (
    is       => 'ro',
-   isa      => $GitRepo,
+   isa      => GitRepo,
    default  => 'origin',
 );
 
 has local_branch => (
    is       => 'ro',
-   isa      => $GitBranch,
+   isa      => GitBranch,
    default  => 'master',
 );
 
@@ -117,7 +118,7 @@ has allow_dirty => (
 
 has changelog => (
    is       => 'ro',
-   isa      => 'Str',
+   isa      => Str,
    default  => 'Changes',
 );
 
