@@ -74,7 +74,7 @@ my $valid_git_repo = qr%
 use MooseX::Types -declare => [qw(
    GitRepo
    GitBranch
-);
+)];
 
 subtype GitRepo,
    as Str,
@@ -104,7 +104,7 @@ has local_branch => (
 
 has remote_branch => (
    is       => 'ro',
-   isa      => $GitBranch,
+   isa      => GitBranch,
    lazy     => 1,
    default  => sub { shift->local_branch },
 );
